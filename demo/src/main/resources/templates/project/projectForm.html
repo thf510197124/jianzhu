@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加客户</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+<div>
+    <div th:include="header::header"></div>
+    <div class="container">
+        <div class="row">
+            <p class="h3 text-success" ><span th:text="${attr}"></span>工程</p>
+        </div>
+        <hr class="text-light">
+        <form th:action="@{/project/add}" method="post" th:object="${project}">
+            <div class="row">
+                <div class="col-6 input-group">
+                    <label for="address" class="input-group-addon">工程名称</label>
+                    <input type="text" th:field="${project.projectName}" id="address" class="form-control">
+                </div>
+                <div class="col-6 input-group">
+                    <label for="code" class="input-group-addon">工程编码</label>
+                    <input type="text" th:field="${project.code}" id="code" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 input-group">
+                    <label for="owner" class="input-group-addon">建设单位</label>
+                    <span class="company-group ">
+                        <input id="owner" th:field="${project.owner}" type="text" class="company form-control" list="owner-tip" autocomplete="off"/>
+                        <datalist id="owner-tip" class="tip"></datalist>
+                    </span>
+                </div>
+                <div class="col-6 input-group">
+                    <label for="designer" class="input-group-addon">设计单位</label>
+                    <span class="company-group ">
+                        <input id="designer" th:field="${project.designer}" type="text" class="company form-control" list="designer-tip" autocomplete="off"/>
+                        <datalist id="designer-tip" class="tip"></datalist>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 input-group">
+                    <label for="bidder" class="input-group-addon">中标单位</label>
+                    <span class="company-group ">
+                        <input id="bidder" th:field="${project.bidder}" type="text" class="company form-control" list="bidder-tip" autocomplete="off"/>
+                        <datalist id="bidder-tip" class="tip"></datalist>
+                    </span>
+                </div>
+                <div class="col-6 input-group">
+                    <label for="supervisor" class="input-group-addon">监理单位</label>
+                    <span class="company-group ">
+                        <input id="supervisor" th:field="${project.supervisor}" type="text" class="company form-control" list="supervisor-tip" autocomplete="off"/>
+                        <datalist id="supervisor-tip" class="tip"></datalist>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 input-group">
+                    <label for="director1" class="input-group-addon">施工负责人</label>
+                    <input type="text" th:field="${project.director1}" id="director1" class="form-control">
+                    <label for="director2" class="input-group-addon">,</label><input type="text" th:field="${project.director2}" id="director2" class="form-control">
+                    <label for="director3" class="input-group-addon">,</label><input type="text" th:field="${project.director3}" id="director3" class="form-control">
+                </div>
+                <div class="col-4 input-group">
+                    <label for="technician" class="input-group-addon">施工技术负责人</label>
+                    <input type="text" th:field="${project.technician}" id="technician" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 input-group">
+                    <label for="teamsOfGroups" class="input-group-addon">施工班组</label>
+                    <input type="text" th:field="${project.teamsOfGroups}" id="teamsOfGroups" class="form-control">
+                </div>
+                <div class="col-6 input-group">
+                    <label for="bidTime" class="input-group-addon">中标日期</label>
+                    <input type="date" th:field="${project.bidTime}" id="bidTime" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 input-group">
+                    <label for="bidMoney" class="input-group-addon">中标金额</label>
+                    <input type="text" th:field="${project.bidMoney}" id="bidMoney" class="form-control"><span class="input-group-addon">万元</span>
+                </div>
+                <div class="col-8 input-group">
+                    <label for="contractBegin" class="input-group-addon">合同期限</label>
+                    <input type="date" th:field="${project.contractBegin}" id="contractBegin" class="form-control">
+                    <label for="contractEnd" class="input-group-addon">至</label>
+                    <input type="date" th:field="${project.contractEnd}" id="contractEnd" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 input-group">
+                    <label for="processBegin" class="input-group-addon">施工期限</label>
+                    <input type="date" th:field="${project.processBegin}" id="processBegin" class="form-control">
+                    <label for="processEnd" class="input-group-addon">至</label>
+                    <input type="date" th:field="${project.processEnd}" id="processEnd" class="form-control">
+                </div>
+                <div class="col-4 input-group">
+                    <label for="unit" class="input-group-addon">工程状态</label>
+                    <select id="unit" th:field="${project.status}" class="form-control">
+                        <option th:each="type:${T(com.feijian.item.ProjectStatus).values()}" th:value="${type}"
+                                th:text="${type}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 input-group">
+                    <label for="workContext" class="input-group-addon">工程内容</label>
+                    <textarea type="text" th:field="${project.workContext}" id="workContext" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">添加</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    $(document).ajaxError(function () {
+        $("datalist").hide();
+    });
+    $("datalist").hide();
+    const companyNode = $(".company");
+    $(companyNode).blur(function (){
+        const tip = $(this).next("datalist.tip");
+        $(tip).fadeOut();
+    });
+    $(companyNode).bind("input propertychange",function (){
+        const company = $(this).val();
+        const tip = $(this).next("datalist.tip");
+        if (company.length > 0){
+            $.ajax({
+                type:"post",
+                url:[[@{/company/nameList}]],
+                contentType:'application/json;charset=utf-8',
+                data:company,
+                success:function (data) {
+                $(tip).html("");
+                if (data!=null && data[0] !== "<"){
+                    $(tip).show();
+                    for(let i=0; i<$(data).length; i++){
+                        $(tip).append("<div class='item' onclick='mousedown(this)'>" + data[i] + "</div>")
+                    }
+                    $(tip).slideDown();
+                }
+            },
+            error:function (){
+                $(tip).hide();
+            }
+        });
+        }
+    });
+    function mousedown(object) {
+        $(object).parent().prev().val($(object).text());
+        $(object).parent().fadeOut();
+    }
+</script>
+</body>
+</html>

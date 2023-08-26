@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" >
+  <title>批量添加材料</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+  <link rel="stylesheet" th:href="@{/css/fileinput.css}">
+</head>
+<body>
+  <div th:include="header::header"></div>
+
+  <div class="container  notice">
+    <div class="row">
+      <p class="h3 text-success">批量添加</p>
+      <hr class="text-white">
+    </div>
+    <form th:action="@{/ware/batchAddMaterial}" method="post" enctype="multipart/form-data" id="fileForm">
+      <div class="row">
+        <div class="col-8 form-control-file">
+          <input type="file" name="file" id="file-input" class="file enable-hidden" onchange="fileChange(this);">
+        </div>
+        <div class="col-1">
+        </div>
+        <div class="col-2 input-group">
+          <button class="btn btn-primary btn-block" id="add" type="submit">批量添加</button>
+        </div>
+        <div class="col-1">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <p class="h5  text-danger">添加须知：</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9">
+        <div class="">1、请下载样本文件，按照样本文件的格式填写批量文件内容</div>
+        <div class="">2、产品种类必须是以下各种的某种，不能使用其他的种类，否则会解析错误</div>
+        <div class="">3、产品计量单位必须是以下的某种，不能使用其他的种类，否则会解析错误</div>
+      </div>
+      <div class="col-1"></div>
+      <div class="col-2">
+        <a  th:href="@{/ware/download/sample/material}" class="btn btn-warning">下载示例文件</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 text-center text-danger h6 type">产品种类</div>
+      <div class="col-6 text-danger text-center h6 unit">计量单位</div>
+    </div>
+    <div class="row">
+      <div class="col-3 type">
+        <li>黑色金属</li>
+        <li>木材及制品</li>
+        <li>水泥及制品</li>
+        <li>砖、瓦、砂、石、灰</li>
+        <li>门、窗、玻璃类</li>
+        <li>混凝土及构件</li>
+        <li>五金</li>
+      </div>
+      <div class="col-3 type">
+        <li>油漆、装饰、防水类</li>
+        <li>人工、电力</li>
+        <li>机器台班</li>
+        <li>有色金属</li>
+        <li>墙体及保温材料</li>
+        <li>塑料及制品</li>
+        <li>管材及配件</li>
+      </div>
+      <div class="col-3 unit">
+        <li>吨</li>
+        <li>平方</li>
+        <li>立方</li>
+        <li>张</li>
+        <li>米</li>
+        <li>只</li>
+        <li>套</li>
+      </div>
+      <div class="col-3 unit">
+        <li>节</li>
+        <li>公斤</li>
+        <li>百个</li>
+        <li>卷</li>
+        <li>工</li>
+        <li>千瓦时</li>
+        <li>班</li>
+      </div>
+    </div>
+  </div>
+  <script th:src="@{/js/jquery-3.3.1.js}"></script>
+  <script th:src="@{/js/bootstrap.js}"></script>
+  <script th:src="@{/js/bold-and-bright.js}"></script>
+  <script th:src="@{/js/fileinput.js}"></script>
+  <script th:src="@{/js/locales/zh.js}"></script>
+<script type="text/javascript">
+  $("#file-input").fileinput({
+    theme:'zh',
+    showUpload:false,
+    previewFileType:'any',
+    showPreview:false,
+    browseClass:"btn btn-success left-btn",
+    language:'zh',
+    maxFileSize: 2048,
+    msgSizeTooLarge: "文件 '{name}' (<b>{size} KB</b>) 超过了允许大小 <b>{maxSize} KB</b>.",
+    uploadAsync:false
+  })
+
+  function fileChange(target, id) {
+    let fileSize = 0;
+    const filetypes = [".xls",".xlsx"];
+    const filepath = target.value;
+    const filemaxsize = 1024 * 2;//2M
+    if (filepath) {
+      let isnext = false;
+      const fileend = filepath.substring(filepath.indexOf("."));
+      if (filetypes && filetypes.length > 0) {
+        for (var i = 0; i < filetypes.length; i++) {
+          if (filetypes[i] === fileend) {
+            isnext = true;
+            break;
+          }
+        }
+      }
+      if (!isnext) {
+        alert("不接受此文件类型！");
+        target.value = "";
+        return false;
+      }
+    } else {
+      return false;
+    }
+    if (isIE && !target.files) {
+      var filePath = target.value;
+      var fileSystem = new ActiveXObject("Scripting.FileSystemObject");
+      if (!fileSystem.FileExists(filePath)) {
+        alert("附件不存在，请重新输入！");
+        return false;
+      }
+      var file = fileSystem.GetFile(filePath);
+      fileSize = file.Size;
+    } else {
+      fileSize = target.files[0].size;
+    }
+
+    const size = fileSize / 1024;
+    if (size > filemaxsize) {
+      alert("附件大小不能大于" + filemaxsize / 1024 + "M！");
+      target.value = "";
+      return false;
+    }
+    if (size <= 0) {
+      alert("附件大小不能为0M！");
+      target.value = "";
+      return false;
+    }
+  }
+</script>
+<style>
+  .unit{
+    background: #9fcdff;
+    padding: 10px;
+    border-radius: 0.5rem;
+  }
+  .type{
+    background: #abdde5;
+    padding: 10px;
+    border-radius: 0.5rem;
+  }
+  .notice{
+    padding: 20px 20px 20px 40px;
+    background: white;
+    border-radius: 1rem;
+  }
+</style>
+</body>
+</html>

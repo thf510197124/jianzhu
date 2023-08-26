@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加竣工阶段情况</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+  <div th:include="header::header"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <h2 th:text="${attr} + '竣工阶段情况'"></h2>
+      </div>
+      <div class="col-6 text-right">
+        <a th:href="@{'/project/' + ${projectId}}"> <p th:text="${projectName}" class="h6"></p></a>
+      </div>
+      <hr class="text-light">
+    </div>
+    <form th:action="@{'/project_detail/addOver/' + ${projectId}}" method="post" th:object="${status}">
+      <div class="row">
+        <div class="col-4 input-group">
+          <label for="date" class="input-group-addon">送审日期</label>
+          <input type="date" th:field="${status.songShenDate}" id="date" class="form-control">
+        </div>
+        <div class="col-4 input-group">
+          <label for="money" class="input-group-addon">送审金额</label>
+          <input type="text" th:field="${status.songShenMoney}" id="money" class="form-control">
+        </div>
+        <div class="col-4 input-group">
+          <label for="done-money" class="input-group-addon">审定金额</label>
+          <input  th:field="${status.heDingMoney}" id="done-money" class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3 input-group">
+          <label for="done-user" class="input-group-addon">审定单</label>
+          <input type="text" th:field="${status.shenDingDan}" id="done-user" class="form-control">
+        </div>
+        <div class="col-3 input-group">
+          <label class="input-group-addon" for="boolean-true1">工序资料</label>
+          <select id="boolean-true1" th:field="${status.gongXuZiLiao}" class="form-control">
+            <option th:value="true">齐备</option>
+            <option th:value="false">不齐备</option>
+          </select>
+        </div>
+        <div class="col-3 input-group">
+          <label class="input-group-addon" for="boolean-true2">竣工图</label>
+          <select id="boolean-true2" th:field="${status.junGongTu}" class="form-control">
+            <option th:value="true">齐备</option>
+            <option th:value="false">不齐备</option>
+          </select>
+        </div>
+        <div class="col-3 input-group">
+          <label class="input-group-addon" for="boolean-true3">签证汇总</label>
+          <select id="boolean-true3" th:field="${status.qianZhengHuiZong}" class="form-control">
+            <option th:value="true">齐备</option>
+            <option th:value="false">不齐备</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 input-group">
+          <label class="input-group-addon" for="boolean-true4">竣工验收</label>
+          <select id="boolean-true4" th:field="${status.junGongYanShouZhengMing}" class="form-control">
+            <option th:value="true">齐备</option>
+            <option th:value="false">不齐备</option>
+          </select>
+        </div>
+        <div class="col-4 input-group">
+          <label class="input-group-addon" for="boolean-true5">工程量汇总</label>
+          <select id="boolean-true5" th:field="${status.gongChengLiangHuiZong}" class="form-control">
+            <option th:value="true">齐备</option>
+            <option th:value="false">不齐备</option>
+          </select>
+        </div>
+        <div class="col-4 input-group">
+          <label class="input-group-addon" for="boolean-true6">班组工程量</label>
+          <select id="boolean-true6" th:field="${status.gongChengLiang}" class="form-control">
+            <option th:value="true">齐备</option>
+            <option th:value="false">不齐备</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4 input-group">
+          <label class="input-group-addon" for="boolean-true7">材料汇总</label>
+          <select id="boolean-true7" th:field="${status.caiLiaoHuiZong}" class="form-control">
+            <option th:value="true">齐备</option>
+            <option th:value="false">不齐备</option>
+          </select>
+        </div>
+        <div class="col-4 input-group">
+          <label class="input-group-addon" for="boolean-true8">施工机时</label>
+          <select id="boolean-true8" th:field="${status.shiGongJiXieTime}" class="form-control">
+            <option th:value="true">齐备</option>
+            <option th:value="false">不齐备</option>
+          </select>
+        </div>
+        <div class="col-4">
+          <button class="btn btn-primary btn-block" type="submit">添加</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script th:src="@{/js/jquery-3.3.1.js}"></script>
+  <script th:src="@{/js/bootstrap.js}"></script>
+  <script th:src="@{/js/bold-and-bright.js}"></script>
+<style rel="stylesheet">
+  .radio{
+    width: 60%;
+    height: 60%;
+    padding-left: 0;
+    margin-left: 0;
+  }
+</style>
+</body>
+</html>

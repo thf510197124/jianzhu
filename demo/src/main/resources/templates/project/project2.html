@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>工程详情</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+<div>
+    <div th:include="header::header"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <div th:object="${project}">
+                    <h3>工程详情</h3>
+                    <hr class="text-white">
+                    <div class="row">
+                        <div class="col-3 input-group">
+                            <span class="input-group-addon">工程编码</span>
+                            <span class="form-control h5" th:text="${project.code}" type="text"></span>
+                        </div>
+                        <div class="col-9">
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>工程名称</th>
+                            <td th:text="${project.projectName}" colspan="3" class="h5"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>建筑单位</th>
+                            <td th:text="${project.owner}"></td>
+                            <th>设计单位</th>
+                            <td th:text="${project.designer}"></td>
+                        </tr>
+                        <tr>
+                            <th>中标单位</th>
+                            <td th:text="${project.bidder}"></td>
+                            <th>监理单位</th>
+                            <td th:text="${project.supervisor}"></td>
+                        </tr>
+                        <tr>
+                            <th>施工负责人</th>
+                            <td th:if="${project.director2==null}" th:text="${project.director1.name}">
+                            </td>
+                            <td th:if="${project.director2 !=null && project.director3 == null}" th:text="${project.director1.name} + '(' +${project.director2.name} + ')'">
+                            </td>
+                            <td th:if="${project.director3 !=null}" th:text="${project.director1.name} + '(' +${project.director2.name} + ' ' + ${project.director3.name} +')'">
+                            </td>
+                            <th>施工技术负责人</th>
+                            <td th:text="${project.technician}"></td>
+                        </tr>
+                        <tr>
+                            <th>施工班组</th>
+                            <td th:text="${project.teamsOfGroups}"></td>
+                            <th>中标日期</th>
+                            <td th:text="${project.bidTime}"></td>
+                        </tr>
+                        <tr>
+                            <th>中标金额（万元）</th>
+                            <td th:text="${project.bidMoney}"></td>
+                            <th>合同日期</th>
+                            <td th:text="${project.contractBegin} + '至' + ${project.contractEnd} + '共' + ${contractDays} + '天'"></td>
+                        </tr>
+                        <tr>
+                            <th>施工日期</th>
+                            <td th:text="${project.processBegin} + '至' + ${project.processBegin} + '共' + ${processDays} + '天'"></td>
+                            <th>工程状态</th>
+                            <td th:text="${project.status}"></td>
+                        </tr>
+                        <tr>
+                            <th>创建者</th>
+                            <td th:text="${u.username}"></td>
+                            <th>添加日期</th>
+                            <td th:text="${project.addTime}"></td>
+                        </tr>
+                        <tr>
+                            <th>工程详情</th>
+                            <td th:text="${project.workContext}" colspan="3"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-right">
+                        <a class="btn btn-success"  th:href="@{'/project/update/' + ${project.id}}">修改工程</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-2 border border-light">
+                <div class="row">
+                    <h4>工程管理</h4>
+                    <hr class="text-white">
+                </div>
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link h6 text-success" data-toggle="collapse" href="#collapseOne">文件管理</a>
+                        </div>
+                        <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                            <div class="card-body">
+                                <div>
+                                    <a th:href="@{'/file/project/addFile/' + ${project.id}}">添加文件</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                                <div>
+                                    <a  th:href="@{'/file/project/fileList/' + ${project.id} + '/1'}">查看文件</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link h6 text-success" data-toggle="collapse" href="#collapseTwo">分项管理</a>
+                        </div>
+                        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                                <div th:each="item:${items}">
+                                    <a th:href="@{'/project/projectItem/' + ${item.id}}" th:text="${item.itemName}"></a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                                <div>
+                                    <a th:href="@{'/project/addItem/' + ${project.id}}">添加分项</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link h6 text-success" data-toggle="collapse" href="#collapseThree">过程管理</a>
+                        </div>
+                        <div id="collapseThree" class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                                <div>
+                                    <a th:href="@{'/project_detail/ready/' + ${project.id}}">前期情况</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                                <div>
+                                    <a th:href="@{'/project_detail/process/' + ${project.id}}">施工情况</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                                <div>
+                                    <a th:href="@{'/project_detail/over/' + ${project.id}}">竣工阶段</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                                <div>
+                                    <a th:href="@{'/project_detail/pay/' + ${project.id}}">工程款支付</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="card-link h6 text-success" data-toggle="collapse" href="#collapseFour">材料管理</a>
+                        </div>
+                        <div id="collapseFour" class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                                <div>
+                                    <a th:href="@{'/ware/project/add/' + ${project.id}}">添加货单</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                                <div>
+                                    <a th:href="@{'/ware/project/all/' + ${project.id} + '/1'} ">查看货单</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                                <div>
+                                    <a th:href="@{'/count/project/' + ${project.id}} ">材料统计</a>
+                                    <div class="dropdown-divider"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    section{
+        background: white;
+    }
+    .card-body>div>a{
+        text-decoration: none;
+        color:black;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+</body>
+</html>

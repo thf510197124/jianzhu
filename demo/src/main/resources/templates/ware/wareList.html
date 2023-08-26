@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>出入库单列表</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+  <div th:include="header::header"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <p class="h3 text-success" >出入库单列表</p>
+      </div>
+      <div class="col-6 text-right">
+        <a th:href="@{'/project/' + ${projectId}}"> <p th:text="${projectName}" class="h6"></p></a>
+      </div>
+      <hr class="text-white">
+    </div>
+    <div class="row">
+      <table class="table table-striped table-bordered table-hover">
+        <tr>
+          <th>货单号</th>
+          <th>出入库</th>
+          <th>购入单位</th>
+          <th>订货时间</th>
+          <th>货单金额</th>
+          <th>详情</th>
+        </tr>
+        <tr th:each="w:${page.getContent()}">
+          <th th:text="${w.orderCode}"></th>
+          <th th:text="${w.billType}"></th>
+          <th th:text="${w.buyFrom}"></th>
+          <th th:text="${w.orderTime}"></th>
+          <th th:text="${w.totalMoney}"></th>
+          <td ><a th:href="@{'/ware/bill/' + ${w.id}}">详情</a> </td>
+        </tr>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-3">
+      </div>
+      <div class="col-6">
+          <span th:if="${page.getNumber() > 4}">
+            <a th:href="@{'/ware/project/all/' + ${projectId} + '/1'}" class="btn btn-success">首页</a>
+          </span>
+          <span th:class="${page.getNumber() == 0} ? disabled">
+            <a th:href="@{'/ware/project/all/' + ${projectId} + '/'+ ${page.getNumber()}}" class="btn btn-success">上一页</a>
+          </span>
+          <span th:each="index:${#numbers.sequence((page.getNumber() - 2 < 1 ? 1 : page.getNumber() - 2),
+              (page.getNumber() + 3 <= page.getTotalPages() ? page.getNumber() + 3 : page.getTotalPages()))}"
+              th:class="${index==page.getNumber() + 1} ? disabled">
+              <a th:href="@{'/ware/project/all/' + ${index}}" th:text="${index}" class="btn btn-success"></a>
+          </span>
+          <span th:class="${page.getNumber() == page.getTotalPages() - 1} ? disabled">
+            <a th:href="@{'/ware/project/all/' + ${projectId} + '/' + ${page.getNumber() + 2 }}" class="btn btn-success">下一页</a>
+          </span>
+          <span th:if="${page.getNumber() < page.getTotalPages()-4}">
+            <a th:href="@{'/ware/project/all/' + ${projectId} + '/' + ${page.getTotalPages()}}" class="btn btn-success">尾页</a>
+          </span>
+      </div>
+      <div class="col-3">
+      </div>
+    </div>
+    <hr class="text-white">
+    <div class="row">
+      <div class="col-9"></div>
+      <div class="col-3">
+        <a th:href="@{'/ware/project/add/' + ${projectId}}" class="btn btn-primary">添加库单</a>
+      </div>
+    </div>
+  </div>
+
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+</body>
+</html>

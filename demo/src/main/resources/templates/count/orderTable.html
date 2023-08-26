@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:https="http://www.thymealf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <!--这个是ware的情况-->
+  <th:fragment>
+    <div class="row">
+      <div class="col-3 order">
+          <div class="col-1"><span>订单类型</span></div>
+          <div class="col-1"><span>订单号</span></div>
+          <div class="col-1"><span>添加时间</span></div>
+          <div class="col-1"><span>金额</span></div>
+      </div>
+      <div class="col-9">
+        <div class="col-1"><span>产品种类</span></div>
+        <div class="col-1"><span>产品代码</span></div>
+        <div class="col-1"><span>产品名称</span></div>
+        <div class="col-1"><span>产品材质</span></div>
+        <div class="col-1"><span>产品规格</span></div>
+        <div class="col-1"><span>产品单位</span></div>
+        <div class="col-1"><span>数量</span></div>
+        <div class="col-1"><span>单价</span></div>
+        <div class="col-1"><span>金额</span></div>
+      </div>
+    </div>
+    <div class="row" th:each="ware:${wares}">
+      <div class="col-9 order">
+        <div class="col-1"><span th:text="${ware.billType}"></span></div>
+        <div class="col-1"><span th:text="${ware.orderCode}"></span></div>
+        <div class="col-1"><span th:text="${ware.addTime}"></span></div>
+        <div class="col-1"><span th:text="${ware.totalMoney}"></span></div>
+      </div>
+      <div class="col-9" th:each="m:${ware.entryList}">
+        <div class="col-1"><span th:text="${m.material.materialType}"></span></div>
+        <div class="col-1"><span th:text="${m.material.code}"></span></div>
+        <div class="col-1"><span th:text="${m.material.materialName}"></span></div>
+        <div class="col-1"><span th:text="${m.material.texture}"></span></div>
+        <div class="col-1"><span th:text="${m.material.spec}"></span></div>
+        <div class="col-1"><span th:text="${m.material.unitType}"></span></div>
+        <div class="col-1"><span th:text="${m.amount}"></span></div>
+        <div class="col-1"><span th:text="${m.price}"></span></div>
+        <div class="col-1"><span th:text="${m.summary}"></span></div>
+      </div>
+    </div>
+  </th:fragment>
+</body>
+</html>

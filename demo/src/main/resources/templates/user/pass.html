@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>用户列表</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+<div th:include="header::header"></div>
+<div class="container">
+  <div class="row">
+    <p class="h4 text-success">更改密码</p>
+    <hr class="text-white">
+  </div>
+  <form th:action="@{/user/updatePass}" method="post">
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 input-group">
+          <label for="name" class="input-group-addon">原始密码</label>
+          <input type="password" id="name" class="form-control" name = "oldPass">
+        </div>
+        <div class="col-3"></div>
+
+      </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 input-group">
+          <label for="phone1" class="input-group-addon">更新密码</label>
+          <input type="password" id="phone1" class="form-control" name="newPass">
+        </div>
+        <div class="col-3"></div>
+      </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 input-group">
+          <label for="phone2" class="input-group-addon">再次输入</label>
+          <input type="password" id="phone2" class="form-control" name="newPass2">
+        </div>
+        <div class="col-3">
+            <p id="tip" class="text-danger"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <p th:if="${errorMess !=null}" th:text="${errorMess}" id="text-danger"></p>
+        </div>
+        <div class="col-3">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6"></div>
+        <div class="col-3">
+          <button class="btn btn-lg btn-primary btn-block" type="submit" id="re-set">更改</button>
+        </div>
+        <div class="col-3"></div>
+      </div>
+  </form>
+</div>
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+<script type="text/javascript">
+    $("#re-set").attr("disabled",true);
+    $("#phone1,#phone2").bind("input",function (){
+        var phone1 = $("#phone1").val();
+        var phone2 = $("#phone2").val();
+        if (phone1 != null && phone1.trim() !== "" ){
+            $("#re-set").attr("disabled",phone1!==phone2);
+            if (phone1 !== phone2){
+                $("#tip").html("两次输入的密码不一致");
+            }else{
+                $("#tip").html("");
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

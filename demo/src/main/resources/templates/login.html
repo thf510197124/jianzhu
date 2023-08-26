@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author">
+    <title>建筑工程管理系统</title>
+    <!--<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css"/>-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+&lt;!&ndash;    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">&ndash;&gt;-->
+</head>
+<body>
+    <div class="container">
+        <div class="form-title">
+            <div>
+                <h3 class="text-right">建筑管理系统</h3>
+                <hr class="">
+            </div>
+        </div>
+        <div class="login-pad">
+
+
+            <form class="form-horizontal" action="/login" method="post" th:object="${user}">
+                <fieldset>
+
+                    <!-- Form Name -->
+                    <legend class="pull-right">用户登录</legend>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="username">用户名</label>
+                        <div class="col-md-5">
+                            <input id="username" th:field="*{username}" type="text" placeholder="用户名" class="form-control input-md" required="">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                        <div class="col-md-5">
+                            <input id="password" th:field="*{password}" type="password" placeholder="密&nbsp;&nbsp;&nbsp;&nbsp;码"
+                                   class="form-control input-md" required="">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <!-- Button (Double) -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="button1id"></label>
+                        <div class="col-md-8">
+                            <button id="button1id" name="button1id" class="btn btn-success" type="submit">提交</button>
+                            <a id="register" class="btn btn-danger" th:href="@{/register}">注册</a>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+
+    </div>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+            integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<!--    <script th:src="@{/js/bootstrap_4.0.0.js}"></script>-->
+</body>
+</html>

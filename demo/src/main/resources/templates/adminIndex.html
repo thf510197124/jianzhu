@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>客户端主页</title>
+</head>
+<body>
+    <div class="userManage">
+        <ul>
+            <li>用户管理</li>
+            <li>
+                <a th:href="@{/user/allUsers}">查看所有用户</a>
+            </li>
+            <li>
+                <a th:href="@{/user/needEnabled}">待审核用户</a>
+            </li>
+            <li>
+               <a th:href="@{/user/myDetail}">我的资料</a>
+            </li>
+        </ul>
+    </div>
+    <div class="projectManage">
+        <ul>
+            <li>工程管理</li>
+            <li>
+                <a th:href="@{/project/addProject}">添加工程</a>
+            </li>
+            <li>
+                <a th:href="@{/project/allProjects}">全部工程</a>
+            </li>
+            <li>
+                <a th:href="@{/project/projectOnProcess}">施工中的工程</a>
+            </li>
+        </ul>
+    </div>
+    <div class="materialManage">
+        <ul>
+            <li>查看所有材料</li>
+            <li>
+                <a th:href="@{/ware/addMaterial}">添加材料</a>
+            </li>
+            <li>
+                <a th:href="@{/ware/addInWare}">添加入库单</a>
+            </li>
+            <li>
+                <a th:href="@{/ware/addOutWare}">添加出库单</a>
+            </li>
+        </ul>
+    </div>
+    <div class="resourceManage">
+        <ul>
+            <li>查看所有材料</li>
+            <li>
+                <a th:href="@{/file/fileForm}">添加材料</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

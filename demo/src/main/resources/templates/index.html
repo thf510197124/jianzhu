@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>建筑工程管理系统</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+
+<body>
+<div th:include="header::header"></div>
+<header class="bg-primary-gradient">
+    <div class="container pt-4 pt-xl-5">
+        <div class="row pt-5">
+            <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto">
+                <div class="text-center">
+                    <p class="fw-bold text-success mb-2"></p>
+                    <h3 class="fw-bold">最新施工中的工程</h3>
+                </div>
+            </div>
+            <div class="col-12 col-lg-10 mx-auto">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>工程名称</th>
+                            <th>金石·惠阳建筑1#楼样板景观绿化工程</th>
+                            <th>工程编码</th>
+                            <th>22-02</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>建筑单位</td>
+                            <td>无锡金驼置业有限公司</td>
+                            <td>设计单位</td>
+                            <td>江苏森博建筑设计有限公司</td>
+                        </tr>
+                        <tr>
+                            <td>中标单位</td>
+                            <td>无锡金大地建筑有限公司</td>
+                            <td>监理单位</td>
+                            <td>无锡金大地建筑有限公司</td>
+                        </tr>
+                        <tr>
+                            <td>施工负责人</td>
+                            <td>张志康（韩运红）</td>
+                            <td>施工技术负责人</td>
+                            <td>邓科</td>
+                        </tr>
+                        <tr>
+                            <td>中标日期</td>
+                            <td>2022-12-19</td>
+                            <td>中标金额</td>
+                            <td>150万元</td>
+                        </tr>
+                        <tr>
+                            <td>合同日期</td>
+                            <td>2022-12-15至2023-01-15共30天</td>
+                            <td>施工日期</td>
+                            <td>2022-12-18至2023-01-14共28天</td>
+                        </tr>
+                        <tr>
+                            <td>创建着</td>
+                            <td>张志康</td>
+                            <td>添加日期</td>
+                            <td>2022-12-18</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="py-5">
+    <div class="container  project-title">
+        <div class="row">
+            <div class="col-9">
+                <h3>工程详情</h3>
+            </div>
+            <div class="col-3">
+                <a class="btn btn-success" href="#">添加工程文件</a>
+                <a class="btn btn-danger" th:href="@{'/project/addItem/' + projectId}">添加分项</a>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="container project-detail">
+        <div class="row">
+            <div class="col-md-6">
+                <h5>工程前期分析</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr></tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>进度影响因素</td>
+                            <td>Cell 2</td>
+                        </tr>
+                        <tr>
+                            <td>进度影响因素</td>
+                            <td>Cell 2</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-success" type="button">添加资料</button>
+                    <button class="btn btn-primary" type="button">查看详情</button>
+                    <button class="btn btn-danger" type="button">编辑</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h5>施工情况分析</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr></tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>特殊情况</td>
+                            <td>Cell 2</td>
+                        </tr>
+                        <tr>
+                            <td>恶劣天气</td>
+                            <td>Cell 2</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-success" type="button">添加资料</button>
+                    <button class="btn btn-primary" type="button">查看详情</button>
+                    <button class="btn btn-danger" type="button">编辑</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h5>竣工情况</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr></tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>送审日期</td>
+                            <td>Cell 2</td>
+                        </tr>
+                        <tr>
+                            <td>送审金额</td>
+                            <td>Cell 2</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-success" type="button">添加资料</button>
+                    <button class="btn btn-primary" type="button">查看详情</button>
+                    <button class="btn btn-danger" type="button">编辑</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h5>工程款支付</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr></tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>工程款支付方式</td>
+                            <td>Cell 2</td>
+                        </tr>
+                        <tr>
+                            <td>实际支付情况</td>
+                            <td>Cell 2</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-success" type="button">添加资料</button>
+                    <button class="btn btn-primary" type="button">查看详情</button>
+                    <button class="btn btn-danger" type="button">编辑</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+</body>
+
+</html>

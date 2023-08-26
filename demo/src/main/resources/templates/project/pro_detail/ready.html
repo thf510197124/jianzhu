@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>添加前期情况分析</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+  <div th:include="header::header"></div>
+  <div class="container" th:object="${status}">
+    <div class="row">
+      <div class="col-6">
+        <h2 th:text="前期情况"></h2>
+      </div>
+      <div class="col-6 text-right">
+        <a th:href="@{'/project/' + ${projectId}}"> <p th:text="${projectName}" class="h6"></p></a>
+      </div>
+      <hr class="text-light">
+    </div>
+
+    <div class="row">
+      <div class="col-6 input-group">
+        <label class="input-group-addon" for="keynote">技术重点:</label>
+        <textarea th:text="${status.keynote}" id="keynote" class="form-control"></textarea>
+      </div>
+      <div class="col-6 input-group">
+        <label class="input-group-addon" for="factors">进度影响因素</label>
+        <textarea th:text="${status.factors}" id="factors" class="form-control"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 input-group">
+        <label class="input-group-addon" for="schedule">进度计划</label>
+        <textarea  th:text="${status.schedule}" id="schedule" class="form-control"></textarea>
+      </div>
+      <div class="col-6 input-group">
+        <label class="input-group-addon" for="material">重点材料情况</label>
+        <textarea th:text="${status.materialKeyNote}" id="material" class="form-control"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 input-group">
+        <span class="input-group-addon">中标通知书:是否齐备</span>
+        <span th:text="${status.bidderNoticeReady == true ? '是' : '否'}" class="form-control"></span>
+      </div>
+      <div class="col-6 input-group">
+        <span class="input-group-addon">工程合同:是否齐备</span>
+        <span th:text="${status.projectContractReady == true ? '是' : '否'}" class="form-control"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 input-group">
+        <span class="input-group-addon">中标清单:是否齐备</span>
+        <span th:text="${status.bidderListReady == true ? '是' : '否'}" class="form-control"></span>
+      </div>
+      <div class="col-6 input-group">
+        <span class="input-group-addon">施工图纸:是否齐备</span>
+        <span th:text="${status.blueprintReady == true ? '是' : '否'}" class="form-control"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9"></div>
+      <div class="col-3">
+        <a th:href="@{'/project_detail/update/ready/' + ${status.id}}" class="btn btn-primary btn-block">修改</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="text-white">
+
+  <div class="container">
+    <p class="h3">相关文件</p>
+    <hr class="text-white">
+    <div class="row">
+      <div class="col-6">
+
+      </div>
+      <div class="col-6">
+        <a th:href="@{'/file/status/fileList/' + ${status.id} + '/1'}" class="btn btn-warning">查看已上传文件</a>
+        <a th:href="@{'/file/status/addFile/' + ${projectId} + '/' + ${status.id}}" class="btn btn-warning">添加前期情况文件</a>
+      </div>
+    </div>
+  </div>
+
+  <script th:src="@{/js/jquery-3.3.1.js}"></script>
+  <script th:src="@{/js/bootstrap.js}"></script>
+  <script th:src="@{/js/bold-and-bright.js}"></script>
+</body>
+</html>

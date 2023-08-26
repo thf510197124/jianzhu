@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>进货单</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+    <div th:include="header::header"></div>
+    <div class="container">
+        <div class="row">
+            <p class="h2"><span th:text="${attr}"></span>材料清单</p>
+        </div>
+        <form th:action="@{/ware/project/add}" method="post" th:object="${ware}">
+            <div class="row">
+                <div class="col-4 input-group">
+                    <label for="inout" class="input-group-addon">出库入库</label>
+                    <select id="inout" th:field="${ware.billType}" class="form-control billType">
+                        <option value="">请选择</option>
+                        <option th:each="type:${T(com.feijian.item.BillType).values()}" th:value="${type}"
+                                th:text="${type.name}"></option>
+                    </select>
+                </div>
+                <div class="col-4 input-group">
+                    <label for="code" class="input-group-addon">货单号</label>
+                    <input id="code" th:field="${ware.orderCode}" type="text" class="form-control"/>
+                </div>
+                <div class="col-4 input-group">
+                    <label for="inTime" class="input-group-addon">订货日期</label>
+                    <input id="inTime" th:field="${ware.orderTime}" type="date" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 input-group">
+                    <label for="project" class="input-group-addon">所属工程</label>
+                    <input id="project" type="text" th:field="${ware.project}" class="form-control">
+                </div>
+                <!--通过工程名称，自动给出分项选项供选择-->
+                <div class="col-6 input-group">
+                    <label for="projectItem" class="input-group-addon">所属分项</label>
+                    <span class="item-group">
+                        <input id="projectItem" type="text" th:field="${ware.projectItem}" class="form-control" autocomplete="off" list="item-tip"/>
+                        <datalist id="item-tip" class="tip"></datalist>
+                    </span>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 input-group">
+                    <label for="company" class="input-group-addon">购入单位</label>
+                    <span class="company-group ">
+                        <input id="company" th:field="${ware.buyFrom}" type="text" class="company form-control" list="company-tip" autocomplete="off"/>
+                        <datalist id="company-tip" class="tip"></datalist>
+                    </span>
+                </div>
+                <div class="col-6 input-group">
+                    <label for="employee" class="input-group-addon">所属班组</label>
+                    <span class="employee-group ">
+                        <input id="employee" th:field="${ware.employee}" type="text" class="employee form-control" list="employee-tip" autocomplete="off"/>
+                        <datalist id="employee-tip" class="tip"></datalist>
+                    </span>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th class="text-center">材料代码</th>
+                        <th class="text-center">材料种类</th>
+                        <th class="text-center">材料名称</th>
+                        <th class="text-center">材质</th>
+                        <th class="text-center">规格</th>
+                        <th class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;单&nbsp;&nbsp;&nbsp;&nbsp;位&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th class="text-center">数量</th>
+                        <th class="text-center">单价</th>
+                        <th class="text-center">金额</th>
+                        <th class="text-center">税率</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="mCode0"></label>
+                            <input id="mCode0" placeholder="获取材料或生成代码" th:field="${ware.code0}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType0" class="hidden-label"></label>
+                            <select id="mType0" th:field="${ware.type0}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName0"></label>
+                            <input id="mName0" th:field="${ware.name0}" type="text" class="form-control mname" autocomplete="off" list="name-tip0">
+                            <datalist id="name-tip0" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture0"></label>
+                            <input id="texture0" th:field="${ware.texture0}" type="text" class="form-control texture" autocomplete="off" list="texture-tip0">
+                            <datalist id="texture-tip0" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec0"></label>
+                            <input id="mSpec0" th:field="${ware.spec0}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip0">
+                            <datalist id="mspec-tip0" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit0"></label>
+                            <select id="mUnit0" th:field="${ware.unit0}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount0"></label><input id="iAmount0" th:field="${ware.amount0}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice0"></label><input id="iPrice0" th:field="${ware.price0}" type="number" class="form-control price">
+                        </td>
+                        <td>
+                            <label for="iSummary0"></label><input id="iSummary0" th:field="${ware.sum0}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax0"></label><input id="tax0" th:field="${ware.tax0}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="mCode1"></label><input id="mCode1" placeholder="获取材料或生成代码" th:field="${ware.code1}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType1"></label>
+                            <select id="mType1" th:field="${ware.type1}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName1"></label>
+                            <input id="mName1" th:field="${ware.name1}" type="text" class="form-control mname" autocomplete="off" list="name-tip1">
+                            <datalist id="name-tip1" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture1"></label>
+                            <input id="texture1" th:field="${ware.texture1}" type="text" class="form-control texture" autocomplete="off" list="texture-tip1">
+                            <datalist id="texture-tip1" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec1"></label>
+                            <input id="mSpec1" th:field="${ware.spec1}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip1">
+                            <datalist id="mspec-tip1" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit1"></label>
+                            <select id="mUnit1" th:field="${ware.unit1}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount1"></label><input id="iAmount1" th:field="${ware.amount1}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice1"></label><input id="iPrice1" th:field="${ware.price1}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary1"></label><input id="iSummary1" th:field="${ware.sum1}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax1"></label><input id="tax1" th:field="${ware.tax1}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="mCode2"></label><input id="mCode2" placeholder="获取材料或生成代码" th:field="${ware.code2}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType2"></label>
+                            <select id="mType2" th:field="${ware.type2}" class="form-control mtype">
+                            <option value="">请选择</option>
+                            <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                    th:text="${type.name}"></option>
+                        </select>
+                        </td>
+                        <td>
+                            <label for="mName2"></label>
+                            <input id="mName2" th:field="${ware.name2}" type="text" class="form-control mname" autocomplete="off" list="name-tip2">
+                            <datalist id="name-tip2" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture2"></label>
+                            <input id="texture2" th:field="${ware.texture2}" type="text" class="form-control texture" autocomplete="off" list="texture-tip2">
+                            <datalist id="texture-tip2" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec2"></label>
+                            <input id="mSpec2" th:field="${ware.spec2}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip2">
+                            <datalist id="mspec-tip2" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit2"></label>
+                            <select id="mUnit2" th:field="${ware.unit2}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount2"></label><input id="iAmount2" th:field="${ware.amount2}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice2"></label><input id="iPrice2" th:field="${ware.price2}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary2"></label><input id="iSummary2" th:field="${ware.sum2}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax2"></label><input id="tax2" th:field="${ware.tax2}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="mCode3"></label><input id="mCode3" placeholder="获取材料或生成代码" th:field="${ware.code3}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType3"></label>
+                            <select id="mType3" th:field="${ware.type3}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName3"></label>
+                            <input id="mName3" th:field="${ware.name3}" type="text" class="form-control mname" autocomplete="off" list="name-tip3">
+                            <datalist id="name-tip3" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture3"></label>
+                            <input id="texture3" th:field="${ware.texture3}" type="text" class="form-control texture" autocomplete="off" list="texture-tip3">
+                            <datalist id="texture-tip3" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec3"></label><input id="mSpec3" th:field="${ware.spec3}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip3">
+                            <datalist id="mspec-tip3" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit3"></label>
+                            <select id="mUnit3" th:field="${ware.unit3}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount3"></label><input id="iAmount3" th:field="${ware.amount3}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice3"></label><input id="iPrice3" th:field="${ware.price3}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary3"></label><input id="iSummary3" th:field="${ware.sum3}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax3"></label><input id="tax3" th:field="${ware.tax3}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <label for="mCode4"></label><input id="mCode4" placeholder="获取材料或生成代码" th:field="${ware.code4}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType4"></label>
+                            <select id="mType4" th:field="${ware.type4}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <label for="mName4"></label>
+                            <input id="mName4" th:field="${ware.name4}" type="text" class="form-control mname" autocomplete="off" list="name-tip4">
+                            <datalist id="name-tip4" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture4"></label>
+                            <input id="texture4" th:field="${ware.texture4}" type="text" class="form-control texture" autocomplete="off" list="texture-tip4">
+                            <datalist id="texture-tip4" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec4"></label>
+                            <input id="mSpec4" th:field="${ware.spec4}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip4">
+                            <datalist id="mspec-tip4" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit4"></label>
+                            <select id="mUnit4" th:field="${ware.unit4}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount4"></label><input id="iAmount4" th:field="${ware.amount4}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice4"></label><input id="iPrice4" th:field="${ware.price4}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary4"></label><input id="iSummary4" th:field="${ware.sum4}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax4"></label><input id="tax4" th:field="${ware.tax4}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="mCode5"></label><input id="mCode5" placeholder="获取材料或生成代码" th:field="${ware.code5}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType5"></label>
+                            <select id="mType5" th:field="${ware.type5}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                                <option value="">请选择</option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <label for="mName5"></label>
+                            <input id="mName5" th:field="${ware.name5}" type="text" class="form-control mname" autocomplete="off" list="name-tip5">
+                            <datalist id="name-tip5" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture5"></label>
+                            <input id="texture5" th:field="${ware.texture5}" type="text" class="form-control texture" autocomplete="off" list="texture-tip5">
+                            <datalist id="texture-tip5" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec5"></label>
+                            <input id="mSpec5" th:field="${ware.spec5}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip5">
+                            <datalist id="mspec-tip5" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit5"></label>
+                            <select id="mUnit5" th:field="${ware.unit5}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount5"></label><input id="iAmount5" th:field="${ware.amount5}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice5"></label><input id="iPrice5" th:field="${ware.price5}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary5"></label><input id="iSummary5" th:field="${ware.sum5}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax5"></label><input id="tax5" th:field="${ware.tax5}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount6 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode6"></label><input id="mCode6" placeholder="获取材料或生成代码" th:field="${ware.code6}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType6"></label>
+                            <select id="mType6" th:field="${ware.type6}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName6"></label>
+                            <input id="mName6" th:field="${ware.name6}" type="text" class="form-control mname" autocomplete="off" list="name-tip6">
+                            <datalist id="name-tip6" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture6"></label>
+                            <input id="texture6" th:field="${ware.texture6}" type="text" class="form-control texture" autocomplete="off" list="texture-tip6">
+                            <datalist id="texture-tip6" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec6"></label>
+                            <input id="mSpec6" th:field="${ware.spec6}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip6">
+                            <datalist id="mspec-tip6" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit6"></label>
+                            <select id="mUnit6" th:field="${ware.unit6}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount6"></label><input id="iAmount6" th:field="${ware.amount6}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice6"></label><input id="iPrice6" th:field="${ware.price6}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary6"></label><input id="iSummary6" th:field="${ware.sum6}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax6"></label><input id="tax6" th:field="${ware.tax6}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount7 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode7"></label><input id="mCode7" placeholder="获取材料或生成代码" th:field="${ware.code7}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType7"></label>
+                            <select id="mType7" th:field="${ware.type7}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName7"></label>
+                            <input id="mName7" th:field="${ware.name7}" type="text" class="form-control mname" autocomplete="off" list="name-tip7">
+                            <datalist id="name-tip7" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture7"></label>
+                            <input id="texture7" th:field="${ware.texture7}" type="text" class="form-control texture" autocomplete="off" list="texture-tip7">
+                            <datalist id="texture-tip7" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec7"></label>
+                            <input id="mSpec7" th:field="${ware.spec7}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip7">
+                            <datalist id="mspec-tip7" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit7"></label>
+                            <select id="mUnit7" th:field="${ware.unit7}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount7"></label><input id="iAmount7" th:field="${ware.amount7}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice7"></label><input id="iPrice7" th:field="${ware.price7}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary7"></label><input id="iSummary7" th:field="${ware.sum7}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax7"></label><input id="tax7" th:field="${ware.tax7}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount8 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode8"></label><input id="mCode8" placeholder="获取材料或生成代码" th:field="${ware.code8}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType8"></label>
+                            <select id="mType8" th:field="${ware.type8}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName8"></label>
+                            <input id="mName8" th:field="${ware.name8}" type="text" class="form-control mname" autocomplete="off" list="name-tip8">
+                            <datalist id="name-tip8" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture8"></label>
+                            <input id="texture8" th:field="${ware.texture8}" type="text" class="form-control texture" autocomplete="off" list="texture-tip8">
+                            <datalist id="texture-tip8" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec8"></label>
+                            <input id="mSpec8" th:field="${ware.spec8}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip8">
+                            <datalist id="mspec-tip8" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit8"></label>
+                            <select id="mUnit8" th:field="${ware.unit8}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount8"></label><input id="iAmount8" th:field="${ware.amount8}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice8"></label><input id="iPrice8" th:field="${ware.price8}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary8"></label><input id="iSummary8" th:field="${ware.sum8}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax8"></label><input id="tax8" th:field="${ware.tax8}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount9 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode9"></label><input id="mCode9" placeholder="获取材料或生成代码" th:field="${ware.code9}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType9"></label><select id="mType9" th:field="${ware.type9}" class="form-control mtype">
+                            <option value="">请选择</option>
+                            <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                    th:text="${type.name}"></option>
+                        </select>
+                        </td>
+                        <td>
+                            <label for="mName9"></label>
+                            <input id="mName9" th:field="${ware.name9}" type="text" class="form-control mname" autocomplete="off" list="name-tip9">
+                            <datalist id="name-tip9" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture9"></label>
+                            <input id="texture9" th:field="${ware.texture9}" type="text" class="form-control texture" autocomplete="off" list="texture-tip9">
+                            <datalist id="texture-tip9" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec9"></label>
+                            <input id="mSpec9" th:field="${ware.spec9}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip9">
+                            <datalist id="mspec-tip9" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit9"></label>
+                            <select id="mUnit9" th:field="${ware.unit9}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount9"></label><input id="iAmount9" th:field="${ware.amount9}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice9"></label><input id="iPrice9" th:field="${ware.price9}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary9"></label><input id="iSummary9" th:field="${ware.sum9}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax9"></label><input id="tax9" th:field="${ware.tax9}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount10 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode10"></label><input id="mCode10" placeholder="获取材料或生成代码" th:field="${ware.code10}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType10"></label><select id="mType10" th:field="${ware.type10}" class="form-control mtype">
+                            <option value="">请选择</option>
+                            <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                    th:text="${type.name}"></option>
+                        </select>
+                        </td>
+                        <td>
+                            <label for="mName10"></label>
+                            <input id="mName10" th:field="${ware.name10}" type="text" class="form-control mname" autocomplete="off" list="name-tip10">
+                            <datalist id="name-tip10" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture10"></label>
+                            <input id="texture10" th:field="${ware.texture10}" type="text" class="form-control texture" autocomplete="off" list="texture-tip10">
+                            <datalist id="texture-tip10" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec10"></label>
+                            <input id="mSpec10" th:field="${ware.spec10}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip10">
+                            <datalist id="mspec-tip10" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit10"></label>
+                            <select id="mUnit10" th:field="${ware.unit10}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount10"></label><input id="iAmount10" th:field="${ware.amount10}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice10"></label><input id="iPrice10" th:field="${ware.price10}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary10"></label><input id="iSummary10" th:field="${ware.sum10}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax10"></label><input id="tax10" th:field="${ware.tax10}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount11 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode11"></label><input id="mCode11" placeholder="获取材料或生成代码" th:field="${ware.code11}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType11"></label>
+                            <select id="mType11" th:field="${ware.type11}" class="form-control mtype">
+                            <option value="">请选择</option>
+                            <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                    th:text="${type.name}"></option>
+                        </select>
+                        </td>
+                        <td>
+                            <label for="mName11"></label>
+                            <input id="mName11" th:field="${ware.name11}" type="text" class="form-control mname" autocomplete="off" list="name-tip11">
+                            <datalist id="name-tip11" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture11"></label>
+                            <input id="texture11" th:field="${ware.texture11}" type="text" class="form-control texture" autocomplete="off" list="texture-tip11">
+                            <datalist id="texture-tip11" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec11"></label>
+                            <input id="mSpec11" th:field="${ware.spec11}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip11">
+                            <datalist id="mspec-tip11" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit11"></label>
+                            <select id="mUnit11" th:field="${ware.unit11}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount11"></label><input id="iAmount11" th:field="${ware.amount11}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice11"></label><input id="iPrice11" th:field="${ware.price11}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary11"></label><input id="iSummary11" th:field="${ware.sum11}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax11"></label><input id="tax11" th:field="${ware.tax11}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount12 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode12"></label><input id="mCode12" placeholder="获取材料或生成代码" th:field="${ware.code12}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType12"></label>
+                            <select id="mType12" th:field="${ware.type12}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName12"></label>
+                            <input id="mName12" th:field="${ware.name12}" type="text" class="form-control mname" autocomplete="off" list="name-tip12">
+                            <datalist id="name-tip12" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture12"></label>
+                            <input id="texture12" th:field="${ware.texture12}" type="text" class="form-control texture" autocomplete="off" list="texture-tip12">
+                            <datalist id="texture-tip12" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec12"></label>
+                            <input id="mSpec12" th:field="${ware.spec12}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip12">
+                            <datalist id="mspec-tip12" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit12"></label>
+                            <select id="mUnit12" th:field="${ware.unit12}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount12"></label><input id="iAmount12" th:field="${ware.amount12}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice12"></label><input id="iPrice12" th:field="${ware.price12}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary12"></label><input id="iSummary12" th:field="${ware.sum12}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax12"></label><input id="tax12" th:field="${ware.tax12}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount13 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode13"></label><input id="mCode13" placeholder="获取材料或生成代码" th:field="${ware.code13}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType13"></label>
+                            <select id="mType13" th:field="${ware.type13}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+
+                        </td>
+                        <td>
+                            <label for="mName13"></label>
+                            <input id="mName13" th:field="${ware.name13}" type="text" class="form-control mname" autocomplete="off" list="name-tip13">
+                            <datalist id="name-tip13" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture13"></label>
+                            <input id="texture13" th:field="${ware.texture13}" type="text" class="form-control texture" autocomplete="off" list="texture-tip13">
+                            <datalist id="texture-tip13" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec13"></label>
+                            <input id="mSpec13" th:field="${ware.spec13}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip13">
+                            <datalist id="mspec-tip13" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit13"></label>
+                            <select id="mUnit13" th:field="${ware.unit13}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount13"></label><input id="iAmount13" th:field="${ware.amount13}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice13"></label><input id="iPrice13" th:field="${ware.price13}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary13"></label><input id="iSummary13" th:field="${ware.sum13}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax13"></label><input id="tax13" th:field="${ware.tax13}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount14 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode14"></label><input id="mCode14" placeholder="获取材料或生成代码" th:field="${ware.code14}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType14"></label>
+                            <select id="mType14" th:field="${ware.type14}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName14"></label>
+                            <input id="mName14" th:field="${ware.name14}" type="text" class="form-control mname" autocomplete="off" list="name-tip14">
+                            <datalist id="name-tip14" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture14"></label>
+                            <input id="texture14" th:field="${ware.texture14}" type="text" class="form-control texture" autocomplete="off" list="texture-tip14">
+                            <datalist id="texture-tip14" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec14"></label>
+                            <input id="mSpec14" th:field="${ware.spec14}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip14">
+                            <datalist id="mspec-tip14" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit14"></label>
+                            <select id="mUnit14" th:field="${ware.unit14}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount14"></label><input id="iAmount14" th:field="${ware.amount14}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice14"></label><input id="iPrice14" th:field="${ware.price14}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary14"></label><input id="iSummary14" th:field="${ware.sum14}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax14"></label><input id="tax14" th:field="${ware.tax14}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount15 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode15"></label><input id="mCode15" placeholder="获取材料或生成代码" th:field="${ware.code15}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType15"></label>
+                            <select id="mType15" th:field="${ware.type15}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <label for="mName15"></label>
+                            <input id="mName15" th:field="${ware.name15}" type="text" class="form-control mname" autocomplete="off" list="name-tip15">
+                            <datalist id="name-tip15" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture15"></label>
+                            <input id="texture15" th:field="${ware.texture15}" type="text" class="form-control texture" autocomplete="off" list="texture-tip15">
+                            <datalist id="texture-tip15" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec15"></label>
+                            <input id="mSpec15" th:field="${ware.spec15}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip15">
+                            <datalist id="mspec-tip15" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit15"></label>
+                            <select id="mUnit15" th:field="${ware.unit15}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount15"></label><input id="iAmount15" th:field="${ware.amount15}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice15"></label><input id="iPrice15" th:field="${ware.price15}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary15"></label><input id="iSummary15" th:field="${ware.sum15}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax15"></label><input id="tax15" th:field="${ware.tax15}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount16 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode16"></label><input id="mCode16" placeholder="获取材料或生成代码" th:field="${ware.code16}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType16"></label>
+                            <select id="mType16" th:field="${ware.type16}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <label for="mName16"></label>
+                            <input id="mName16" th:field="${ware.name16}" type="text" class="form-control mname" autocomplete="off" list="name-tip16">
+                            <datalist id="name-tip16" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture16"></label>
+                            <input id="texture16" th:field="${ware.texture16}" type="text" class="form-control texture" autocomplete="off" list="texture-tip16">
+                            <datalist id="texture-tip16" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec16"></label>
+                            <input id="mSpec16" th:field="${ware.spec16}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip16">
+                            <datalist id="mspec-tip16" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit16"></label>
+                            <select id="mUnit16" th:field="${ware.unit16}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount16"></label><input id="iAmount16" th:field="${ware.amount16}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice16"></label><input id="iPrice16" th:field="${ware.price16}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary16"></label><input id="iSummary16" th:field="${ware.sum16}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax16"></label><input id="tax16" th:field="${ware.tax16}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount17 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode17"></label><input id="mCode17" placeholder="获取材料或生成代码" th:field="${ware.code17}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType17"></label>
+                            <select id="mType17" th:field="${ware.type17}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName17"></label>
+                            <input id="mName17" th:field="${ware.name17}" type="text" class="form-control mname" autocomplete="off" list="name-tip17">
+                            <datalist id="name-tip17" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture17"></label>
+                            <input id="texture17" th:field="${ware.texture17}" type="text" class="form-control texture" autocomplete="off" list="texture-tip17">
+                            <datalist id="texture-tip17" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec17"></label>
+                            <input id="mSpec17" th:field="${ware.spec17}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip17">
+                            <datalist id="mspec-tip17" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit17"></label>
+                            <select id="mUnit17" th:field="${ware.unit17}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount17"></label><input id="iAmount17" th:field="${ware.amount17}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice17"></label><input id="iPrice17" th:field="${ware.price17}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary17"></label><input id="iSummary17" th:field="${ware.sum17}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax17"></label><input id="tax17" th:field="${ware.tax17}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount18 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode18"></label><input id="mCode18" placeholder="获取材料或生成代码" th:field="${ware.code18}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType18"></label>
+                            <select id="mType18" th:field="${ware.type18}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName18"></label>
+                            <input id="mName18" th:field="${ware.name18}" type="text" class="form-control mname" autocomplete="off" list="name-tip18">
+                            <datalist id="name-tip18" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture18"></label>
+                            <input id="texture18" th:field="${ware.texture18}" type="text" class="form-control texture" autocomplete="off" list="texture-tip18">
+                            <datalist id="texture-tip18" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec18"></label>
+                            <input id="mSpec18" th:field="${ware.spec18}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip18">
+                            <datalist id="mspec-tip18" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit18"></label>
+                            <select id="mUnit18" th:field="${ware.unit18}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount18"></label><input id="iAmount18" th:field="${ware.amount18}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice18"></label><input id="iPrice18" th:field="${ware.price18}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary18"></label><input id="iSummary18" th:field="${ware.sum18}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax18"></label><input id="tax18" th:field="${ware.tax18}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                    <tr th:class="${ware.amount19 == 0 ? 'hidden' : ''}">
+                        <td>
+                            <label for="mCode19"></label><input id="mCode19" placeholder="获取材料或生成代码" th:field="${ware.code19}" type="text" class="form-control mcode">
+                        </td>
+                        <td>
+                            <label for="mType19"></label>
+                            <select id="mType19" th:field="${ware.type19}" class="form-control mtype">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}"
+                                        th:text="${type.name}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="mName19"></label>
+                            <input id="mName19" th:field="${ware.name19}" type="text" class="form-control mname" autocomplete="off" list="name-tip19">
+                            <datalist id="name-tip19" class="name-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="texture19"></label>
+                            <input id="texture19" th:field="${ware.texture19}" type="text" class="form-control texture" autocomplete="off" list="texture-tip19">
+                            <datalist id="texture-tip19" class="texture-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mSpec19"></label>
+                            <input id="mSpec19" th:field="${ware.spec19}" type="text" class="form-control mspec" autocomplete="off" list="mspec-tip19">
+                            <datalist id="mspec-tip19" class="mspec-tip tip"></datalist>
+                        </td>
+                        <td>
+                            <label for="mUnit19"></label>
+                            <select id="mUnit19" th:field="${ware.unit19}" class="form-control munit">
+                                <option value="">请选择</option>
+                                <option th:each="type:${T(com.feijian.item.UnitType).values()}" th:value="${type}"
+                                        th:text="${type}"></option>
+                            </select>
+                        </td>
+                        <td>
+                            <label for="iAmount19"></label><input id="iAmount19" th:field="${ware.amount19}" type="number" class="form-control amount"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="iPrice19"></label><input id="iPrice19" th:field="${ware.price19}" type="number" class="form-control price" step="0.01">
+                        </td>
+                        <td>
+                            <label for="iSummary19"></label><input id="iSummary19" th:field="${ware.sum19}" type="number" class="form-control summary"  step="0.01">
+                        </td>
+                        <td>
+                            <label for="tax19"></label><input id="tax19" th:field="${ware.tax19}" type="number" class="form-control tax" step='0.01'>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-5"></div>
+                <div class="col-2">
+                    <button class="btn btn-primary btn-block btn-submit" type="submit" >提交</button>
+                </div>
+                <div class="col-4"></div>
+                <div class="col-1">
+                    <button class="btn btn-primary btn-block" type="button" id="next">加一行</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <style>
+        .hidden{
+            display: none;
+        }
+        .table{
+            display: block;
+            height: 350px;
+            overflow-y: scroll;
+        }
+    </style>
+    <script type="text/javascript">
+        document.getElementById("next").onclick = function (){
+            document.getElementsByClassName("hidden")[0].removeAttribute("class");
+        }
+    </script>
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bold-and-bright.js}"></script>
+    <script th:src="@{/js/bootstrap-select.js}"></script>
+<script type="text/javascript">
+    $(document).ajaxError(function () {
+         $("datalist").hide();
+    });
+    $("datalist").hide();
+    $(".btn-submit")[0].disabled = $("#inout").val() === "";
+    $(".billType").change(function (){
+        const value = $(".billType").val();
+        $(".btn-submit")[0].disabled = !(value !== "" && value !== null);
+    });
+    $(".price").blur(function (){
+        const amount = $(this).parents("tr").children().eq(6).find(".amount").val();
+        const price = $(this).val();
+        const moneyNode = $(this).parents("tr").children().eq(8).find(".summary");
+        if (moneyNode.val() !== amount * price){
+            moneyNode.val(amount * price);
+        }
+    });
+    $(".amount").blur(function (){
+        const price = $(this).parents("tr").children().eq(7).find(".price").val();
+        const amount = $(this).val();
+        const moneyNode = $(this).parents("tr").children().eq(8).find(".summary");
+        if (moneyNode.val() !== amount * price){
+            moneyNode.val(amount * price);
+        }
+    });
+    const companyNode = $(".company");
+    $(companyNode).blur(function (){
+        const tip = $(this).next("datalist.tip");
+        $(tip).fadeOut();
+    });
+    $(companyNode).bind("input propertychange",function (){
+        const company = $(this).val();
+        const tip = $(this).next("datalist.tip");
+        if (company.length > 0){
+            $.ajax({
+                type:"post",
+                url:'[[@{/company/nameList}]]',
+                contentType:'application/json;charset=utf-8',
+                data:company,
+                success:function (data) {
+                    $(tip).html("");
+                    if (data!=null && data[0] !== "<"){
+                        $(tip).show();
+                        for(let i=0; i<$(data).length; i++){
+                            $(tip).append("<div class='item' onclick='mousedown(this)'>" + data[i] + "</div>")
+                        }
+                        $(tip).slideDown();
+                    }
+                },
+                error:function (){
+                    $(tip).hide();
+                }
+            });
+        }
+    });
+    $("#projectItem").focus(function (){
+        const project = $("#project").val();
+        const tip = $(this).next("datalist.tip");
+        if (project.length > 0){
+            $.ajax({
+                type:"post",
+                url:'[[@{/project/projectItem}]]',
+                contentType:'application/json;charset=utf-8',
+                data:project,
+                success:function (data) {
+                    $(tip).html("");
+                    if (data!=null && data[0]!='<'){
+                        $(tip).show();
+                        for(let i=0; i<$(data).length; i++){
+                            $(tip).append("<div class='item' onclick='mousedown(this)'>" + data[i] + "</div>")
+                        }
+                        $(tip).slideDown();
+                    }
+                },
+                error:function (){
+                    $(tip).hide();
+                }
+            });
+        }
+    })
+    $("#projectItem").blur(function (){
+        const tip = $(this).next("datalist.tip");
+        $(tip).hide();
+    })
+    function mousedown(object) {
+        $(object).parent().prev().val($(object).text());
+        $(object).parent().fadeOut();
+    }
+    const name = $(".mname");
+    const texture = $(".texture");
+    const spec = $(".mspec");
+    $(name).blur(function (){
+        blurThis(this);
+    });
+    $(texture).blur(function (){
+        blurThis(this);
+    });
+    $(spec).blur(function (){
+        blurThis(this);
+    });
+    $(name).focus(function (){
+        const m_type = $(this).closest("td").prev("td").find(".mtype");
+        const types = $(m_type).val();
+        const tip = $(this).next("datalist");
+        if (types !==""){
+            $.ajax({
+                type:"post",
+                contentType:'application/json;charset=utf-8',
+                data:types,
+                url:'[[@{/material/tip/nameList}]]',
+                success:function (data) {
+                    $(tip).html("");
+                    if (data[0] === "<"){
+                        $(tip).hide();
+                    }else{
+                        if (data!=null && data[0] !== "<"){
+                            for(let i=0; i<$(data).length; i++){
+                                $(tip).append("<div class='item' onclick='mousedown(this)'>" + data[i] + "</div>")
+                            }
+                            $(tip).slideDown();
+                        }
+                    }
+                }
+            });
+        }
+    });
+    $(texture).focus(function (){
+        const types = $(this).closest("td").prev("td").prev().find(".mtype").val();
+        const name = $(this).closest("td").prev("td").find(".mname").val();
+        const tip = $(this).next("datalist");
+        const list = {
+            type: types,
+            name: name
+        };
+        $.ajax({
+            type:"post",
+            contentType:'application/json;charset=utf-8',
+            data: JSON.stringify(list),
+            url:'[[@{/material/tip/textures}]]',
+            success:function (data) {
+                $(tip).html("");
+                if (data[0]=== "<"){
+                    $(tip).hide();
+                }else{
+                    if (data!=null && data[0] !== "<"){
+                        for(let i=0; i<$(data).length; i++){
+                            $(tip).append("<div class='item' onclick='mousedown(this)'>" + data[i] + "</div>")
+                        }
+                        $(tip).slideDown();
+                    }
+                }
+            },
+            error:function (){
+                $(tip).hide();
+            }
+        });
+    });
+    $(spec).focus(function (){
+        const types = $(this).closest("td").prev("td").prev().find(".mtype").val();
+        const name = $(this).closest("td").prev("td").find(".mname").val();
+        const text = $(this).closest("td").prev("td").find(".texture").val();
+        const tip = $(this).next("datalist");
+        const list = {
+            type: types,
+            name: name,
+            texture: text
+        };
+        $.ajax({
+            type:"post",
+            contentType:'application/json;charset=utf-8',
+            data: JSON.stringify(list),
+            url:'[[@{/material/tip/specs}]]',
+            success:function (data) {
+                $(tip).html("");
+                if (data[0] === "<"){
+                    $(tip).hide();
+                }else{
+                    if (data!=null && data[0] !== "<"){
+                        for(let i=0; i<$(data).length; i++){
+                            $(tip).append("<div class='item' onclick='mousedown(this)'>" + data[i] + "</div>")
+                        }
+                        $(tip).slideDown();
+                    }
+                }
+            },
+            error:function (){
+                $(tip).hide();
+            }
+        });
+    });
+    const code = $(".mcode");
+    $(code).blur(function (){
+       var codeText = $(this).val();
+       if (notNull(codeText)){
+           const type1 = $(this).parents("tr").find(".mtype");
+           const name1 = $(this).parents("tr").find(".mname");
+           const text = $(this).parents("tr").find(".texture");
+           const unit = $(this).parents("tr").find(".munit");
+           const spec1 = $(this).parents("tr").find(".mspec");
+           const amount = $(this).parents("tr").find(".amount");
+           $.ajax({
+               type:"post",
+               contentType:'application/json;charset=utf-8',
+               data: codeText,
+               url:'[[@{/material/tip/material}]]',
+               success:function (data) {
+               if (data!=null && data[0] !== "<"){
+                   $(type1).val(data["type"]);
+                   $(name1).val(data["name"]);
+                   $(text).val(data["texture"]);
+                   $(unit).val(data["unit"]);
+                   $(spec1).val(data["spec"]);
+                   $(amount).focus();
+               }
+           },
+           error:function(){
+               $(tip).hide();
+           }
+       })
+       }
+    });
+    function notNull(value){
+        return value !== "undefined" && value !== null && value !== "";
+    }
+    function blurThis(node){
+        const tip = $(node).next("datalist");
+        $(tip).fadeOut();
+        //getCode(node);感觉没啥用
+    }
+</script>
+</body>
+</html>

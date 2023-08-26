@@ -1,0 +1,12 @@
+.datetimepicker-days table tbody tr td:first-child{
+    pointer-events: none;
+    filter:alpha(opacity=0.5);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}
+.datetimepicker-days table tbody tr td:last-child{
+    pointer-events: none;
+    filter:alpha(opacity=0.5);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}

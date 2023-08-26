@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>订货单详情</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+    <div th:include="header::header"></div>
+    <div class="container">
+        <p class="h3 text-success" th:text="${attr}"></p>
+        <p class="text-right">
+            <a th:href="@{'/ware/delete/' + ${project.id} + '/'+ ${ware.id}}" class="btn btn-danger" onclick="return isCancel()">删除</a>
+        </p>
+        <hr class="text-white">
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-4 input-group">
+                <span class="input-group-addon">货&nbsp;&nbsp;单&nbsp;&nbsp;号：</span>
+                <span id="orderCode" type="text" th:text="${ware.orderCode}" class="form-control"></span>
+            </div>
+            <div class="col-4 input-group">
+                <span class="input-group-addon">订货时间：</span>
+                <span id="orderTime" type="text" th:text="${ware.addTime}" class="form-control"></span>
+            </div>
+            <div class="col-4 input-group">
+                <span class="input-group-addon">所属分项</span>
+                <span id="projectItem" type="text" th:text="${ware.projectItem == null ? '' : ware.getProjectItem().getItemName()}"
+                      class="form-control"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5 input-group">
+                <span class="input-group-addon">所属工程</span>
+                <span id="project" type="text" th:text="${ware.project.getProjectName()}" class="form-control"></span>
+            </div>
+
+            <div class="col-4 input-group">
+                <span class="input-group-addon">购入单位</span>
+                <span id="company" th:text="${ware.buyFrom}" type="text" class="form-control"></span>
+            </div>
+            <div class="col-3 input-group">
+                <span class="input-group-addon">领用班组</span>
+                <span id="employee" th:text="${ware.employee}" type="text" class="form-control"></span>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th class="text-center">序号</th>
+                    <th class="text-center">材料种类</th>
+                    <th class="text-center">材料代码</th>
+                    <th class="text-center">材料名称</th>
+                    <th class="text-center">材质</th>
+                    <th class="text-center">规格</th>
+                    <th class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;单&nbsp;&nbsp;&nbsp;&nbsp;位&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    <th class="text-center">数量</th>
+                    <th class="text-center">单价</th>
+                    <th class="text-center">含税金额</th>
+                    <th class="text-center">不含税金额</th>
+                </tr>
+                <tr th:each="item,index:${materialItems}">
+                    <td th:text="${index.index + 1}"></td>
+                    <td th:text="${item.material.materialType}"></td>
+                    <td th:text="${item.material.code}"></td>
+                    <td th:text="${item.material.materialName}"></td>
+                    <td th:text="${item.material.texture}"></td>
+                    <td th:text="${item.material.spec}"></td>
+                    <td th:text="${item.material.unitType}"></td>
+                    <td th:text="${item.amount}"></td>
+                    <td th:text="${item.price}"></td>
+                    <td th:text="${item.summary}"></td>
+                    <td th:text="${item.unTaxedSum}"></td>
+                </tr>
+                <tr>
+                    <th colspan="3">合计</th>
+                    <td colspan="6"></td>
+                    <th th:text="${ware.totalMoney}"></th>
+                    <th th:text="${ware.unTaxMoney}"></th>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-9">
+            </div>
+            <div class="col-3">
+                <a th:href="@{'/ware/project/update/' + ${ware.id}}" class="btn btn-warning">修改</a>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bold-and-bright.js}"></script>
+    <script th:src="@{/js/bootstrap-select.js}"></script>
+    <script type="text/javascript">
+        function isCancel(){
+            return confirm("你确定要删除吗？");
+        }
+    </script>
+    <style>
+        .table{
+            display: block;
+            height: 400px;
+            overflow-y: scroll;
+            width: 100%;
+        }
+        .table{
+            font-size: 12px;
+        }
+    </style>
+</body>
+</html>

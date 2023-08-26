@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加/修改员工</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+  <div th:include="header::header"></div>
+  <div class="container">
+    <div class="row">
+      <p class="h4 text-success" th:text="${title}"></p>
+      <hr class="text-white">
+    </div>
+    <form th:action="'/user/'+ ${action} + '/employee/' + ${userId}" method="post">
+      <div class="row">
+        <div class="col-6 input-group">
+          <label for="name" class="input-group-addon">姓名</label>
+          <input type="text" id="name" class="form-control" th:field="${emp.name}">
+        </div>
+        <div class="col-6 input-group">
+          <label for="phone1" class="input-group-addon">电话1</label>
+          <input type="text" id="phone1" class="form-control" th:field="${emp.phone1}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 input-group">
+          <label for="phone2" class="input-group-addon">电话2</label>
+          <input type="text" id="phone2" class="form-control" th:field="${emp.phone2}">
+        </div>
+        <div class="col-6 input-group">
+          <label for="duties" class="input-group-addon">职位</label>
+          <input type="text" id="duties" class="form-control" th:field="${emp.duties}">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+        </div>
+        <div class="col-6">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div>
+
+  </div>
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+</body>
+</html>

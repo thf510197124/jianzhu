@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <title>工程列表</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+    <div th:include="header::header"></div>
+    <div class="container">
+        <div class="row">
+            <p class="h4 text-success">工程列表</p>
+            <hr class="text-white">
+        </div>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>工程代码</th>
+                <th style="width:30%">工程名称</th>
+                <th>技术负责人</th>
+                <th>施工班组</th>
+                <th>中标日期</th>
+                <th>中标金额(万元)</th>
+                <th>工程状态</th>
+                <th>创建者</th>
+                <th>添加日期</th>
+                <th>详情</th>
+            </tr>
+            <tr th:each="p:${page.getContent()}">
+                <td th:text="${p.code}"></td>
+                <td th:text="${p.projectName}" style="text-overflow:ellipsis;"></td>
+                <td th:text="${p.technician}"></td>
+                <td th:text="${p.teamsOfGroups}"></td>
+                <td th:text="${p.bidTime}"></td>
+                <td th:text="${p.bidMoney}"></td>
+                <td th:text="${p.status.name()}"></td>
+                <td th:text="${p.user.username}"></td>
+                <td th:text="${p.addTime}"></td>
+                <td ><a th:href="@{'/project/' + ${p.id}}">详情</a> </td>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 text-center">
+                <span th:class="${page.getNumber() == 0} ? disabled">
+                  <a th:href="@{'/project/all/' + ${page.getNumber()}}" class="btn btn-success">上一页</a>
+                </span>
+                <span th:each="index:${#numbers.sequence(1,page.getTotalPages())}"
+                      th:class="${index==page.getNumber() + 1} ? disabled">
+                    <a th:href="@{'/project/all/' + ${index}}" th:text="${index}" class="btn btn-success"></a>
+                </span>
+                <span th:class="${page.getNumber() == page.getTotalPages() - 1} ? disabled">
+                  <a th:href="@{'/project/all/' + ${page.getNumber() + 2 }}" class="btn btn-success">下一页</a>
+                </span>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bold-and-bright.js}"></script>
+    <script type="text/javascript">
+        $("td").addClass("text-center");
+        $("th").addClass("text-center");
+    </script>
+</body>
+</html>

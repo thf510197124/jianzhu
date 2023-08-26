@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户详情</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+<div>
+    <div th:include="header::header"></div>
+    <section class="row my-profile">
+        <div class="col-2">
+        </div>
+        <div class="col-8" th:object="${someUser}">
+            <h4>用户<span th:text="${someUser.username}" class="h3 text-success"></span>资料</h4>
+            <h6 class="text-danger" th:if="${someUser.employee == null}"><a th:href="@{/user/bind}">绑定员工</a> </h6>
+            <hr>
+            <div class="row">
+                <div class="col-4 input-group">
+                    <span class="input-group-addon">用户名：</span>
+                    <span type="text" th:text="${someUser.username}" id="username" class="form-control"></span>
+                </div>
+                <div class="col-4 input-group">
+                    <span class="input-group-addon">角色权限：</span>
+                    <span th:text="${someUser.roles}" class="form-control"></span>
+                </div>
+                <div class="col-4 input-group">
+                    <span class="input-group-addon">是否过期：</span>
+                    <span th:text="${someUser.accountNonExpired ? '否' : '是' }" class="form-control"></span>
+                </div>
+            </div>
+            <div class="row" th:object="${someUser}">
+                <div class="col-4 input-group">
+                    <span class="input-group-addon">是否锁定：</span>
+                    <span th:text="${someUser.accountNonLocked ? '否' : '是'}" class="form-control"></span>
+                </div>
+                <div class="col-4 input-group">
+                    <span class="input-group-addon">信用证是否过期：</span>
+                    <span th:text="${someUser.credentialsNonExpired ? '否' : '是' }" class="form-control"></span>
+                </div>
+                <div class="col-4 input-group">
+                    <span class="input-group-addon">账户是否可用：</span>
+                    <span th:text="${someUser.enabled ?  '是':'否'}" class="form-control"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 input-group">
+                    <span class="input-group-addon">是否关联员工</span>
+                    <span th:text="${emp == null ? '否' : '是'}" class="form-control"></span>
+                </div>
+                <div class="col-4 input-group" th:if="${emp != null}">
+                    <span class="input-group-addon">员工姓名</span>
+                    <span th:text="${emp.name}" class="form-control"></span>
+                </div>
+                <div class="col-4 input-group">
+                    <span class="input-group-addon">电话：</span>
+                    <span th:text="${emp.phone1}" class="form-control"></span>
+                </div>
+            </div>
+            <div class="row" th:if="${emp != null}">
+                <div class="col-4 input-group" th:if="${emp != null}">
+                    <span class="input-group-addon">手机：</span>
+                    <span th:text="${emp.phone2}" class="form-control"></span>
+                </div>
+                <div class="col-4 input-group">
+                    <span class="input-group-addon">职权：</span>
+                    <span th:text="${emp.duties}" class="form-control"></span>
+                </div>
+                <div class="col-4">
+                    <div class="text-right">
+                        <button class="btn btn-danger" id="add-role-id" onclick="hideRole()">添加角色</button>
+                        <button class="btn btn-success" id="update-user-id" onclick="hideUser()">修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+        </div>
+    </section>
+    <section class="hidden row add-role">
+        <div class="col-6">
+        </div>
+        <div class="col-4">
+            <h4>添加角色</h4>
+            <hr>
+            <form th:action="@{'/user/addRole/' + ${someUser.id}}" method="post">
+                <div class="input-group">
+                    <label class="input-group-addon" for="add-role">选择要添加的角色:</label>
+                    <select name="role" class="form-control" id="add-role">
+                        <option value="admin">管&nbsp;&nbsp;理&nbsp;&nbsp;员</option>
+                        <option value="user">普通用户</option>
+                        <option value="ware">库&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;管</option>
+                    </select>
+                    <button class="btn btn-success">提交</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-2">
+        </div>
+    </section>
+    <section class="hidden row update-user">
+        <div class="col-2">
+        </div>
+        <div class="col-8">
+            <h4>修改</h4>
+            <hr>
+            <form th:action="@{'/user/update/' + ${someUser.id}}" method="post">
+                <div class="row">
+                    <div class="col-4 input-group">
+                        <span class="input-group-addon">用户名：</span>
+                        <span type="text" th:text="${someUser.username}" id="up-username" class="form-control"></span>
+                    </div>
+                    <div class="col-4 input-group">
+                        <span class="input-group-addon">角色权限：</span>
+                        <span th:text="${someUser.roles}" class="form-control"></span>
+                    </div>
+                    <div class="col-4 input-group">
+                        <label class="input-group-addon" for="expired">是否过期：</label>
+                        <select id="expired" th:field="${userEmp.accountNonExpired}" class="form-control">
+                            <option th:value="false" th:selected="${userEmp.accountNonExpired}">是</option>
+                            <option th:value="true" th:selected="${userEmp.accountNonExpired}">否</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 input-group">
+                        <label class="input-group-addon" for="locked">是否锁定：</label>
+                        <select id="locked" th:field="${userEmp.accountNonLocked}" class="form-control">
+                            <option th:value="false" th:selected="${userEmp.accountNonExpired}">是</option>
+                            <option th:value="true" th:selected="${userEmp.accountNonExpired}">否</option>
+                        </select>
+                    </div>
+                    <div class="col-4 input-group">
+                        <label class="input-group-addon" for="expired2">信用证是否过期：</label>
+                        <select id="expired2" th:field="${userEmp.credentialsNonExpired}" class="form-control">
+                            <option th:value="false" th:selected="${userEmp.credentialsNonExpired}">是</option>
+                            <option th:value="true" th:selected="${userEmp.credentialsNonExpired}">否</option>
+                        </select>
+                    </div>
+                    <div class="col-4 input-group">
+                        <label class="input-group-addon" for="enabled">账户是否可用：</label>
+                        <select id="enabled" th:field="${userEmp.enabled}" class="form-control">
+                            <option th:value="false" th:selected="${userEmp.enabled}">否</option>
+                            <option th:value="true" th:selected="${userEmp.enabled}">是</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <hr class="text-danger">
+                </div>
+                <div class="row">
+                    <div class="col-4 input-group">
+                        <span class="h5 text-danger">关联的员工</span>
+                    </div>
+                    <div class="col-4 input-group">
+                        <label class="input-group-addon" for="emp-name">员工姓名</label>
+                        <input th:field="${userEmp.name}" class="form-control" id="emp-name">
+                    </div>
+                    <div class="col-4 input-group">
+                        <label class="input-group-addon" for="emp-phone1">电话：</label>
+                        <input th:field="${userEmp.phone1}" class="form-control" id="emp-phone1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4 input-group">
+                        <label class="input-group-addon" for="emp-phone2">手机：</label>
+                        <input th:field="${userEmp.phone2}" class="form-control" id="emp-phone2">
+                    </div>
+                    <div class="col-4 input-group">
+                        <label class="input-group-addon" for="emp-duty">职权：</label>
+                        <input th:field="${userEmp.duties}" class="form-control" id="emp-duty">
+                    </div>
+                    <div class="col-4">
+                        <div class="text-right">
+                            <button class="btn btn-danger">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-2">
+        </div>
+    </section>
+</div>
+
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+<script type="text/javascript">
+    $(".hidden").hide();
+    function hideRole(){
+        $(".add-role").show();
+        $(".update-user").hide();
+    }
+    function hideUser(){
+        $(".update-user").show();
+        $(".add-role").hide();
+    }
+</script>
+</body>
+</html>

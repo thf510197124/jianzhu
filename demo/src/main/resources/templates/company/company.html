@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加客户</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+<div>
+    <div th:include="header::header"></div>
+    <div class="container" th:object="${company}">
+        <div class="row text-center">
+            <p class="h3 text-success" th:text="${company.companyName}"></p>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-6 input-group">
+                <span class="input-group-addon">公司法人</span>
+                <span th:text="${company.owner}" class="form-control" type="text"></span>
+            </div>
+            <div class="col-6 input-group">
+                <span class="input-group-addon">注册地址</span>
+                <span th:text="${company.address}" class="form-control" type="text"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 input-group">
+                <span class="input-group-addon">税&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</span>
+                <span th:text="${company.taxNumber}" class="form-control" type="text"></span>
+            </div>
+            <div class="col-6 input-group">
+                <span class="input-group-addon">开&nbsp;&nbsp;户&nbsp;&nbsp;行</span>
+                <span th:text="${company.bank}" class="form-control" type="text"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 input-group">
+                <span class="input-group-addon">银行账号</span>
+                <span th:text="${company.accountCode}" class="form-control" type="text"></span>
+            </div>
+            <div class="col-6 input-group">
+                <span class="input-group-addon">客户类型</span>
+                <span th:text="${company.type}" class="form-control" type="text"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 input-group">
+                <span class="input-group-addon">其他情况</span>
+                <span th:text="${company.description}" class="form-control" type="text"></span>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-2">
+                <a class="btn btn-primary" th:href="'/contact/add/' + *{id}">添加联系人</a>
+            </div>
+            <div class="col-2">
+                <a class="btn btn-success" th:href="'/company/update/' + *{id}">修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改</a>
+            </div>
+        </div>
+
+    </div>
+    <hr class="text-light">
+    <section class="container">
+        <div class="contactors">
+            <span class="h4 text-success">联系人</span>
+            <div th:each="contactor:${contactors}">
+                <div th:include="/contact/contactor::contactor"></div>
+                <hr class="text-light">
+            </div>
+
+        </div>
+    </section>
+</div>
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+</body>
+</html>

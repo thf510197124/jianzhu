@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>添加联系人</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+<div>
+  <div th:include="header::header"></div>
+  <div th:object="${contactor}" th:fragment="contactor" class="container">
+    <div class="row">
+      <div class="col-4 input-group">
+        <span class="input-group-addon">姓名</span>
+        <span th:text="${contactor.name}" class="form-control"></span>
+      </div>
+      <div class="col-4 input-group">
+        <span class="input-group-addon">电话1</span>
+        <span th:text="${contactor.phone1}" class="form-control"></span>
+      </div>
+      <div class="col-4 input-group">
+        <span class="input-group-addon">电话2</span>
+        <span th:text="${contactor.phone2}" class="form-control"></span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 input-group">
+        <span class="input-group-addon">电话3</span>
+        <span th:text="${contactor.phone3}" class="form-control"></span>
+      </div>
+      <div class="col-4 input-group">
+        <span class="input-group-addon">职位</span>
+        <span th:text="${contactor.duties}" class="form-control"></span>
+      </div>
+      <div class="col-3"></div>
+      <div class="col-1 input-group">
+        <a th:href="@{'/contact/update/' + ${contactor.id}}" class="btn btn-success">修改</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+</body>
+</html>

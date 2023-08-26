@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加客户</title>
+  <title>建筑工程管理系统</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+<div th:include="header::header"></div>
+  <div class="container">
+    <div class="row">
+      <p class="h3 text-success" ><span th:text="${attr}" id="page-attr"></span>客户资料</p>
+      <hr class="text-light">
+      <p class="h6 text-danger" id="error-message" th:text="${error_msg}"></p>
+    </div>
+    <form th:action="@{/company/save}" method="post" th:object="${company}">
+      <div class="row">
+            <div class="col-6 input-group">
+              <label for="companyName" class="input-group-addon">公司名称</label>
+              <input type="text" th:field= "*{companyName}" id="companyName" class="form-control" autocomplete="off">
+            </div>
+            <div class="col-6 input-group">
+              <label for="address" class="input-group-addon">注册地址</label>
+              <input type="text" th:field="*{address}" id="address" class="form-control">
+            </div>
+      </div>
+      <div class="row">
+        <div class="col-6 input-group">
+          <label for="owner" class="input-group-addon">公司法人</label>
+          <input type="text" th:field="*{owner}" id="owner" class="form-control">
+        </div>
+        <div class="col-6 input-group">
+          <label for="tax_num" class="input-group-addon">税&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
+          <input id="tax_num" type="text" th:field="*{taxNumber}" class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 input-group">
+          <label for="bank" class="input-group-addon">开&nbsp;&nbsp;户&nbsp;&nbsp;行</label>
+          <input type="text" th:field="*{bank}" id="bank" class="form-control">
+        </div>
+        <div class="col-6 input-group">
+          <label for="account" class="input-group-addon">银行账号</label>
+          <input type="text" th:field="*{accountCode}" id="account" class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 input-group">
+          <label for="type" class="input-group-addon">客户类型</label>
+          <select id="type" th:field="*{type}" class="form-control">
+            <option value="">请选择</option>
+            <option th:each="type:${T(com.feijian.item.CompanyType).values()}" th:value="${type}"
+                    th:text="${type}" ></option>
+          </select>
+        </div>
+        <div class="col-6 input-group">
+          <label for="description" class="input-group-addon">其他内容</label>
+          <input type="text" th:field="*{description}" id="description" class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-9"></div>
+        <div class="col-3 input-group">
+          <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="${attr}" id="validate-btn"></button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script th:src="@{/js/jquery-3.3.1.js}"></script>
+  <script th:src="@{/js/bootstrap.js}"></script>
+  <script th:src="@{/js/bold-and-bright.js}"></script>
+  <script type="text/javascript">
+    const page_attr = $("#page-attr").html();
+    const companyName = $("#companyName");
+    $(companyName).closest("form").find("#validate-btn").attr('disabled',true);
+    $(companyName).blur(function (){
+      const name = $(companyName).val();
+      if (name.length > 0){
+        $.ajax({
+          type:"post",
+          contentType:'application/json;charset=utf-8',
+          data: JSON.stringify(name),
+          url:'[[@{/company/isExisted}]]',
+          success:function (data) {
+            if((page_attr==="添加" && data > 0) || (page_attr==="修改" && data > 1)){
+              $("#error-message").html("你输入的客户' " + name + "' 已经存在，不能重复添加")
+              $(companyName).addClass("validate-error")
+              $(companyName).removeClass("validate-ok")
+              $(companyName).closest("form").find("#validate-btn").attr('disabled',true);
+            }else{
+              $("#error-message").html()
+              $(companyName).removeClass("validate-error");
+              $(companyName).removeClass("validate-ok")
+              $(companyName).closest("form").find("#validate-btn").removeAttr('disabled');
+            }
+          }
+        });
+      }
+    })
+  </script>
+</body>
+</html>

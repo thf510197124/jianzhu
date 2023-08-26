@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>工程详情</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+   <div th:include="header::header"></div>
+
+  <div class="container">
+    <div class="row">
+      <p class="text-success h4">选填</p>
+      <hr class="text-white">
+    </div>
+    <form th:action="@{/count/project}" th:object="${count}" method="post">
+      <div class="row">
+          <div class="col-3 input-group">
+              <label for="item" class="input-group-addon">所属分项</label>
+              <select id="item" th:field="${count.projectItem}" class="form-control">
+                  <option value="">不选</option>
+                  <option th:each="item:${items}" th:value="${item.itemName}" th:text="${item.itemName}">
+                  </option>
+              </select>
+          </div>
+          <div class="col-3 input-group">
+              <label for="billType" class="input-group-addon">货单类型</label>
+              <select id="billType" th:field="${count.billType}" class="form-control">
+                  <option value="">不选</option>
+                  <option th:each="type:${T(com.feijian.item.BillType).values()}" th:value="${type}" th:text="${type.name}"></option>
+              </select>
+          </div>
+          <div class="col-3 input-group">
+              <label for="materialType" class="input-group-addon">产品类型</label>
+              <select id="materialType" th:field="${count.materialType}" class="form-control">
+                  <option value="">不选</option>
+                  <option th:each="type:${T(com.feijian.item.MaterialType).values()}" th:value="${type}" th:text="${type.name}"></option>
+              </select>
+          </div>
+          <div class="col-3 input-group">
+              <label for="name" class="input-group-addon">产品名称</label>
+              <input id="name" th:field="${count.name}" class="form-control" type="text" th:placeholder="产品名称">
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-3 input-group">
+              <label for="spec" class="input-group-addon">产品规格</label>
+              <input id="spec" th:field="${count.spec}" class="form-control" type="text" th:placeholder="产品规格">
+          </div>
+          <div class="col-3 input-group">
+              <label for="company" class="input-group-addon">订货公司</label>
+              <select id="company" th:field="${count.company}" class="form-control">
+                  <option value="">不选</option>
+                  <option th:each="company:${companys}" th:value="${company}" th:text="${company}"></option>
+              </select>
+          </div>
+          <div class="col-3 input-group">
+              <label for="employee" class="input-group-addon">所属班组</label>
+              <select id="employee" th:field="${count.employee}" class="form-control">
+                  <option value="">不选</option>
+                  <option th:each="employee:${employees}" th:value="${employee}" th:text="${employee}"></option>
+              </select>
+          </div>
+          <div class="col-3">
+              <button class="btn btn-primary" type="submit">查询</button>
+          </div>
+      </div>
+    </form>
+    <hr>
+  </div>
+   <div class="container" th:if="${productItems != null}">
+       <div class="row">
+           <div class="col-10">
+           </div>
+           <div class="col-2">
+               <a th:href="@{/count/download}" class="btn btn-bg btn-danger">下载</a>
+           </div>
+       </div>
+   </div>
+  <div class="container" th:if="${productItems != null}">
+    <table class="table-bordered table table-striped table-hover">
+      <tr>
+          <th >订单编号</th>
+          <th >添加时间</th>
+          <th >订单类型</th>
+          <th >责任人</th>
+          <th >种类</th>
+          <th >产品代码</th>
+          <th >名称</th>
+          <th >材质</th>
+          <th >规格</th>
+          <th >单位</th>
+          <th >数量</th>
+          <th >单价</th>
+          <th >金额</th>
+      </tr>
+      <tr th:each="p:${productItems}">
+          <td th:text="${p.orderCode}"></td>
+          <td th:text="${p.orderTime}">添加时间</td>
+          <td th:text="${p.billType}">订单类型</td>
+          <td th:text="${p.employee}">责任人</td>
+
+          <td th:text="${p.materialType}"></td>
+          <td th:text="${p.code}"></td>
+          <td th:text="${p.name}"></td>
+          <td th:text="${p.texture}"></td>
+          <td th:text="${p.spec}"></td>
+          <td th:text="${p.unit}"></td>
+          <td th:text="${p.amount}"></td>
+          <td th:text="${p.price}"></td>
+          <td th:text="${p.summary}"></td>
+      <tr>
+    </table>
+  </div>
+
+<script th:src="@{/js/jquery-3.3.1.js}"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+<script th:src="@{/js/bold-and-bright.js}"></script>
+<style>
+    .table{
+        display: block;
+        height: 400px;
+        overflow-y: scroll;
+        width: 100%;
+    }
+    .table{
+        font-size: 12px;
+    }
+</style>
+</body>
+</html>

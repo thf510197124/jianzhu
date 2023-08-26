@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>员工列表</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+  <div th:include="header::header"></div>
+  <div class="container" th:object="${employees}">
+    <div class="row">
+      <p class="h4 text-success" th:text="${title}"></p>
+      <hr class="text-white">
+    </div>
+    <div class="row">
+      <table class="table table-hover table-striped table-bordered">
+        <tr>
+          <td>姓名</td>
+          <td>电话1</td>
+          <td>电话2</td>
+          <td>职务</td>
+          <td>操作</td>
+        </tr>
+        <tr th:each="emp:${employees}">
+          <td th:text="${emp.name}">姓名</td>
+          <td th:text="${emp.phone1}">电话</td>
+          <td th:text="${emp.phone2}">手机</td>
+          <td th:text="${emp.duties}">职务</td>
+          <td>
+            <a th:if="${needBind}" th:href="@{'/user/bind/' + ${emp.id}}">绑定</a>
+            <a th:if="${!needBind}" th:href="@{'/user/update/employee/' + ${emp.id}}">修改</a>
+          </td>
+
+        </tr>
+      </table>
+  </div>
+  <script th:src="@{/js/jquery-3.3.1.js}"></script>
+  <script th:src="@{/js/bootstrap.js}"></script>
+  <script th:src="@{/js/bold-and-bright.js}"></script>
+</body>
+</html>

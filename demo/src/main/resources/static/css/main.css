@@ -1,0 +1,142 @@
+body {
+    background-color: #eee;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: 400;
+}
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.login-pad{
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #abdde5;
+}
+h2{
+    color: #0062cc;
+}
+legend{
+    font-size: 20px;
+    color: #28a745;
+}
+.row{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.col-8 .h3{
+    margin-bottom: 5px;
+}
+.user-list,.unchecked-list,.my-profile{
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.user-list,.my-profile{
+    background: #fff;
+}
+.input-group-addon {
+    padding: .375rem .75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    background-color: #e9ecef;
+    border: 1px solid #e5e5e8;
+}
+.table th,.table td{
+    padding:0.4rem;
+}
+.project-title{
+    background: white;
+    padding-top:10px
+}
+.add-role{
+    background: #cce5ff;
+}
+.item{
+    padding-bottom: 30px;
+    padding-top: 30px;
+    padding-left: 10px;
+}
+td>label{
+    display: none;
+
+}
+td>input{
+    width: 100%;
+}
+td>select{
+    width: 100%;
+}
+.disabled{
+    pointer-events: none;
+}
+.disabled>a{
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+}
+.validate-ok{
+    background-color: #b1dfbb !important;
+}
+.validate-error{
+    background-color: #efa2a9 !important;
+}
+.tip>.item{
+    margin-left:1em;
+    margin-right:1em;
+    height:40px;
+    font-size:0.9em;
+    width:auto;
+    padding: 5px 0;
+    border-radius: 3px;
+    background-color: #fcfcfc;
+}
+.tip>.item:hover
+{
+    background-color: #ebebeb;
+    cursor:pointer;
+}
+.tip{
+    position: absolute;
+    left: auto;
+    /*width: auto;
+    left:0;*/
+    z-index: 9999;
+    display: block;
+    background-color:white;
+}
+.company-group,.employee-group,.item-group{
+    width: 80%;
+}

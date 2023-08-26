@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>前期情况分析</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+</head>
+<body>
+    <div th:include="header::header"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h2 th:text="${attr} + '前期情况分析'"></h2>
+            </div>
+            <div class="col-6 text-right">
+                <a th:href="@{'/project/' + ${projectId}}"> <p th:text="${projectName}" class="h6"></p></a>
+            </div>
+            <hr class="text-light">
+        </div>
+      <form th:action="@{'/project_detail/addReady/' + ${projectId}}" method="post" th:object="${status}">
+        <div class="row ">
+            <div class="col-6 input-group">
+                <label for="keynote" class="input-group-addon">技术重点</label>
+                <textarea type="text" th:field="${status.keynote}" id="keynote" class="form-control"></textarea>
+            </div>
+            <div class="col-6 input-group">
+                <label for="factors" class="input-group-addon">进度影响因素</label>
+                <textarea type="text" th:field="${status.factors}" id="factors" class="form-control"></textarea>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-6 input-group">
+                <label for="schedule" class="input-group-addon">进度计划</label>
+                <textarea  th:field="${status.schedule}" id="schedule" class="form-control"></textarea>
+            </div>
+            <div class="col-6 input-group">
+                <label for="material" class="input-group-addon">重点材料情况</label>
+                <textarea type="text" th:field="${status.materialKeyNote}" id="material" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-3 input-group">
+                <label class="input-group-addon" for="bidder">中标通知书</label>
+                <select id="bidder" th:field="${status.bidderNoticeReady}" class="form-control">
+                    <option th:value="true">齐备</option>
+                    <option th:value="false">不齐备</option>
+                </select>
+            </div>
+            <div class="col-3 input-group">
+                <label class="input-group-addon" for="count">工程合同</label>
+                <select id="count" th:field="${status.projectContractReady}" class="form-control">
+                    <option th:value="true">齐备</option>
+                    <option th:value="false">不齐备</option>
+                </select>
+            </div>
+            <div class="col-3 input-group">
+                <label class="input-group-addon" for="bidderL">中标清单</label>
+                <select id="bidderL" th:field="${status.bidderListReady}" class="form-control">
+                    <option th:value="true">齐备</option>
+                    <option th:value="false">不齐备</option>
+                </select>
+            </div>
+            <div class="col-3 input-group">
+                <label class="input-group-addon" for="blue_print">施工图纸</label>
+                <select id="blue_print" th:field="${status.blueprintReady}" class="form-control">
+                    <option th:value="true">齐备</option>
+                    <option th:value="false">不齐备</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-9"></div>
+          <div class="col-3">
+            <button class="btn btn-primary btn-block" type="submit" th:text="${attr}"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  <script th:src="@{/js/jquery-3.3.1.js}"></script>
+  <script th:src="@{/js/bootstrap.js}"></script>
+  <script th:src="@{/js/bold-and-bright.js}"></script>
+<style rel="stylesheet">
+    .h5{
+        color:blue;
+        margin: 10px;
+    }
+</style>
+</body>
+</html>
